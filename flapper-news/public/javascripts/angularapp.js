@@ -1,8 +1,16 @@
 angular.module('meanNews', ['ui.router'])
 
+app.factory('posts', [function(){
+  var o = {
+    posts: []
+  };
+  return o;
+}]);
+
 app.controller('Mainctrl', [
     '$scope',
-    function($scope) {
+    'posts',
+    function($scope, posts){
         $scope.test = "Hello World";
         $scope.posts = [
         {title: 'post 1', upvotes: 5},
@@ -11,12 +19,18 @@ app.controller('Mainctrl', [
         ];
         $scope.addPost = function(){
             if (!$scope.title || $scope.title === '') {return; }
-            $scope.posts.push({title: $scope.title, upvotes: 0});
-            $scope.title = "";
+            $scope.posts.push({
+              title: $scope.title,
+              link: $scope.link,
+              upvotes: 0
+            });
+            $scope.title = '';
+            $scope.link = '';
         };
         $scope.incrementUpvotes = function(post) {
             post.upvotes += 1;
         };
+        $scope.posts = posts.posts;
     }
     ]);
     
